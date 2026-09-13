@@ -1,0 +1,96 @@
+{
+  "schema": "h3c-drl-refined-observation-contract",
+  "schema_version": 1,
+  "contract_id": "refined-temporal-v1",
+  "temporal_contract": {
+    "control_step_minutes": 15,
+    "temperature_offsets": [0, -1, -2, -3, -4],
+    "temperature_missing": "repeat_earliest",
+    "action_offsets": [-1, -2, -3, -4],
+    "action_missing": "fixed_initial_setpoint",
+    "power_offsets": [-1, -2, -3, -4],
+    "power_missing": "zero",
+    "forecast_offsets": [0, 1, 2, 3, 4],
+    "forecast_offsets_minutes": [0, 15, 30, 45, 60],
+    "mappo_local_layout": "zone_then_shared"
+  },
+  "common_normalization": {
+    "time_sin_cos": [-1.0, 1.0],
+    "zone_temperature_k": [288.15, 308.15],
+    "physical_setpoint_history_k": [293.15, 303.15],
+    "normalized_power": [0.0, 1.0],
+    "outdoor_temperature_k": [263.15, 313.15],
+    "solar_irradiance_w_m2": [0.0, 1200.0],
+    "electricity_price": [0.0, 0.2],
+    "pmv": [-3.0, 3.0]
+  },
+  "tasks": {
+    "sz_air_ppo": {
+      "case": "SZ_Air",
+      "controller": "c-drl",
+      "algorithm": "ppo",
+      "observation_dimension": 36,
+      "action_dimension": 1,
+      "policy_zone_order": ["zone1"],
+      "occupancy_encoding": "effective_count",
+      "occupancy_upper": 2.0,
+      "cold_start_action_c": 25.0,
+      "residual_base": "fixed_25"
+    },
+    "mz_air_ppo": {
+      "case": "MZ_Air",
+      "controller": "c-drl",
+      "algorithm": "ppo",
+      "observation_dimension": 96,
+      "action_dimension": 5,
+      "policy_zone_order": ["cor", "nor", "sou", "eas", "wes"],
+      "occupancy_encoding": "effective_count",
+      "occupancy_upper": 50.0,
+      "cold_start_action_c": 25.0,
+      "residual_base": "fixed_25"
+    },
+    "mz_air_mappo": {
+      "case": "MZ_Air",
+      "controller": "h-drl",
+      "algorithm": "mappo",
+      "observation_dimension": 96,
+      "local_observation_dimension": 36,
+      "action_dimension": 5,
+      "policy_zone_order": ["cor", "nor", "sou", "eas", "wes"],
+      "occupancy_encoding": "effective_count",
+      "occupancy_upper": 50.0,
+      "cold_start_action_c": 25.0,
+      "residual_base": "fixed_25"
+    },
+    "mz_hydro_ppo": {
+      "case": "MZ_Hydro",
+      "controller": "c-drl",
+      "algorithm": "ppo",
+      "observation_dimension": 51,
+      "action_dimension": 2,
+      "policy_zone_order": ["NZ", "SZ"],
+      "occupancy_encoding": "effective_count",
+      "occupancy_upper": 200.0,
+      "cold_start_action_c": 25.0,
+      "residual_base": "occupancy_25_30"
+    },
+    "mz_hydro_mappo": {
+      "case": "MZ_Hydro",
+      "controller": "h-drl",
+      "algorithm": "mappo",
+      "observation_dimension": 51,
+      "local_observation_dimension": 36,
+      "action_dimension": 2,
+      "policy_zone_order": ["NZ", "SZ"],
+      "occupancy_encoding": "effective_count",
+      "occupancy_upper": 200.0,
+      "cold_start_action_c": 25.0,
+      "residual_base": "occupancy_25_30"
+    }
+  },
+  "case_specific_exceptions": {
+    "occupancy": "All policies use effective occupancy counts; testcase-specific capacity bounds and official occupancy-window semantics are retained.",
+    "action_mapping": "Hydronic retains its approved occupied-25/unoccupied-30 residual base; air cases retain fixed-25.",
+    "episode_length": "Air cases retain 7-day episodes; hydronic retains its approved 5-day episode."
+  }
+}

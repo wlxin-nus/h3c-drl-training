@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, cite the archived software release and the associated H3C article when its citation is available."
+title: "H3C DRL Training"
+type: software
+authors:
+  - name: "H3C DRL Training Contributors"
+version: 1.0.0
+date-released: 2026-09-13
+repository-code: "https://github.com/wlxin-nus/h3c-drl-training"
+url: "https://github.com/wlxin-nus/h3c-drl-training"
+keywords:
+  - building control
+  - deep reinforcement learning
+  - BOPTEST
+  - PPO
+  - MAPPO

@@ -15,6 +15,7 @@ dist/
 /runs/
 /runtime/
 /wandb/
+/artifacts/
 *.tmp
 *.tmp.*
 *.log

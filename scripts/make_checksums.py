@@ -16,8 +16,22 @@ EXCLUDED_PARTS = {
     "__pycache__",
     "venv",
 }
-EXCLUDED_ROOT_DIRECTORIES = {"build", "dist", "runs", "runtime", "wandb"}
+EXCLUDED_ROOT_DIRECTORIES = {"artifacts", "build", "dist", "runs", "runtime", "wandb"}
 EXCLUDED_NAMES = {".coverage", ".env", "coverage.xml", OUTPUT.name}
+TEXT_SUFFIXES = {
+    ".cff",
+    ".csv",
+    ".ipynb",
+    ".json",
+    ".md",
+    ".ps1",
+    ".py",
+    ".toml",
+    ".txt",
+    ".yml",
+    ".yaml",
+}
+TEXT_NAMES = {".gitattributes", ".gitignore", "LICENSE"}
 
 
 def included(path: Path) -> bool:
@@ -35,7 +49,10 @@ def included(path: Path) -> bool:
 def current() -> dict[str, str]:
     values: dict[str, str] = {}
     for path in sorted(item for item in ROOT.rglob("*") if included(item)):
-        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        content = path.read_bytes()
+        if path.suffix.lower() in TEXT_SUFFIXES or path.name in TEXT_NAMES:
+            content = content.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+        digest = hashlib.sha256(content).hexdigest()
         values[path.relative_to(ROOT).as_posix()] = digest
     return values
 

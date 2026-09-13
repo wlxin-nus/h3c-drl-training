@@ -1,5 +1,4 @@
+# Keep source and data text on one canonical line ending across operating systems.
 * text=auto eol=lf
-*.zip binary
 *.pt binary
-*.png binary
-*.pdf binary
+*.zip binary

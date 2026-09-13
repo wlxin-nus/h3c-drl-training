@@ -1,10 +1,8 @@
-# Frozen DRL policies
+# Historical preflight policies
 
-This directory contains inference-only checkpoints used by the independent H3C baselines.
-Every load is preceded by byte-count and SHA-256 verification against `registry.json`.
-Training code, optimizer state management, notebooks, and experiment trackers are intentionally
-outside the release package. Evaluation results never participate in checkpoint selection.
+These five immutable policy files satisfy the offline model-registry checks of the bundled
+historical training snapshot. Every load is preceded by byte-count and SHA-256 verification
+against `registry.json`.
 
-The Hydro checkpoints are the user-designated endpoints of extended training. They are eligible
-for evaluation, but their original convergence criteria were not fully satisfied; the per-model
-cards preserve that limitation.
+They are legacy compatibility assets, not the 15 best checkpoints evaluated in the paper. They
+must not be used to reproduce or reinterpret the reported PPO/MAPPO results.

@@ -9,7 +9,7 @@ authors:
     given-names: "Wei"
   - family-names: "Chong"
     given-names: "Adrian"
-version: 1.0.0
+version: 1.1.0
 date-released: 2026-09-13
 repository-code: "https://github.com/wlxin-nus/h3c-drl-training"
 url: "https://github.com/wlxin-nus/h3c-drl-training"

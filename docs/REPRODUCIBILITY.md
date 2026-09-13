@@ -55,10 +55,12 @@ The evaluated checkpoints were created by historical source and configuration id
 differ from the current publication package. A scientifically compatible historical snapshot is
 included under `historical_training_source_287b452`: its source fingerprint and all 15
 seed-specific configuration hashes match the retained training manifests. It also contains the
-five legacy policies required by the historical offline preflight. The 15 evaluated best
-checkpoints are not included, so direct replay of those policies is not supported by this release.
-Checkpoint files supplied separately must be paired with the historical source fingerprint and
-their seed-specific configuration hashes.
+five legacy policies required by the historical offline preflight. The snapshot can be used for
+fresh retraining under the historical contract. Direct replay of the published policies is not
+supported because the 15 evaluated best checkpoints, the matching held-out-evaluation source
+snapshots, and exact BOPTEST image/FMU identities are not all included. Checkpoints supplied
+separately must be paired with their training configuration, evaluation source, and simulator
+identities.
 
 The aggregation command enforces this boundary: it validates each seed-specific hash
 against the packaged task and rejects mixed protocol hashes, source fingerprints, or
@@ -74,4 +76,7 @@ The reference experiments use `0.8.0-dev`. Version `1.0.0-dev` is accepted for p
 
 ## Release integrity
 
-Run `python scripts/make_checksums.py --verify` after download. The checksum file excludes generated runs, local environments, caches, credentials, and W&B data.
+Run `python scripts/make_checksums.py --verify` after download. Text files are hashed after
+canonical LF line-ending normalization so that the same release verifies on Windows and POSIX
+systems; binary files are hashed byte for byte. The checksum file excludes generated runs, local
+environments, caches, credentials, and W&B data.

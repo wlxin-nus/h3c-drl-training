@@ -2,7 +2,7 @@
 
 All notable changes to the publication training package are recorded here.
 
-## Unreleased
+## 1.1.0 - 2026-09-13
 
 - Added processed paper metrics, training histories, and de-identified held-out time series.
 - Added independent recomputation of comfort and setpoint-dynamics metrics.
@@ -13,6 +13,13 @@ All notable changes to the publication training package are recorded here.
 - Added a scientifically compatible historical training-source snapshot, the 15 verified
   task--seed configuration identities, and the five legacy policies required by its offline
   preflight. The 15 evaluated best checkpoints remain outside the release.
+- Distinguished current-source retraining, historical-protocol retraining, and direct replay of
+  the evaluated policies.
+- Added cross-platform CI, package-build validation, and stronger checks for the released
+  training histories and early-stopping records.
+- Added a deterministic plotting command for the released epoch-level training curves.
+- Moved the default Numba cache to a short writable temporary path so deeply nested Windows
+  checkouts can import `pythermalcomfort` without exceeding legacy path limits.
 
 ## 1.0.0 - 2026-09-13
 

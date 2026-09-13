@@ -6,9 +6,11 @@ This standalone package was assembled from the frozen DRL training implementatio
 source commit `5220556d47fdfe2b61163ccf71330faac81b7cb5` in
 <https://github.com/wlxin-nus/h3c-drl-multiseed-training>. That source repository may
 remain private; the commit is therefore an auditable project-lineage identifier rather
-than a guarantee of anonymous public access. Evaluated paper checkpoints, stability-screen
-candidates, and the broader H3C application stack were deliberately excluded. Version 1.0.0
-starts a new, publication-focused Git history.
+than a guarantee of anonymous public access. Evaluated paper checkpoints and stability-screen
+candidates were deliberately excluded. The maintained runtime does not include the broader H3C
+application stack. Compatibility modules under `historical_training_source_287b452/upstream`
+belong only to the frozen historical snapshot and are not imported by the maintained package.
+Version 1.0.0 started a new, publication-focused Git history.
 
 The scientific contract is represented by `TaskSpec`, the packaged case profiles, and
 the packaged observation contract. A run records both their SHA-256 configuration hash
@@ -30,8 +32,10 @@ publication tree. Twelve run manifests name unavailable commit `ac08458`, and th
 `287b452`; all 15 nevertheless record the same source fingerprint and match the 15 configurations
 recomputed from the bundled `historical_training_source_287b452` snapshot. The snapshot is
 therefore a scientifically compatible historical source/configuration package, not an assertion
-that every run recorded the same Git object. Exact replay still requires the 15 evaluated best
-checkpoints, which are not included.
+that every run recorded the same Git object. It supports fresh retraining under the historical
+contract. Exact replay of the published policies additionally requires the 15 evaluated best
+checkpoints, their matching held-out-evaluation source snapshots, and exact BOPTEST image/FMU
+identities. These assets are not all included.
 
 The historical offline preflight also depends on five legacy policy files referenced by its frozen
 registry. These files are bundled to preserve that preflight contract and are not the 15 policies

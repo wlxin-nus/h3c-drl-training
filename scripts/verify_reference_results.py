@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -28,6 +29,16 @@ EXPECTED_GROUPS = {
     ("MZ_Air", "PPO"),
     ("MZ_Air", "MAPPO"),
 }
+EXPECTED_TRAINING_TASKS = {
+    "sz_air_ppo": ("SZ Air", "PPO", 2688),
+    "mz_hydro_ppo": ("MZ Hydro", "PPO", 1920),
+    "mz_hydro_mappo": ("MZ Hydro", "MAPPO", 1920),
+    "mz_air_ppo": ("MZ Air", "PPO", 2688),
+    "mz_air_mappo": ("MZ Air", "MAPPO", 2688),
+}
+EXPECTED_SEEDS = {42, 1337, 2026}
+EXPECTED_TRAINING_ROWS = 4225
+EXPECTED_TRAINING_EVALUATION_ROWS = 169
 PHYSICAL_METRICS = (
     "reward",
     "total_cost",
@@ -102,6 +113,14 @@ def _close(actual: float, expected: float) -> bool:
     return math.isclose(actual, expected, rel_tol=1e-10, abs_tol=1e-8)
 
 
+def _parse_bool(value: str, *, field: str) -> bool:
+    if value == "True":
+        return True
+    if value == "False":
+        return False
+    raise ValueError(f"{field} must be True or False")
+
+
 def _historical_source_fingerprint() -> str:
     digest = hashlib.sha256()
     for name in HISTORICAL_FINGERPRINT_FILES:
@@ -111,6 +130,18 @@ def _historical_source_fingerprint() -> str:
         normalized = content.replace("\r\n", "\n").replace("\r", "\n")
         digest.update(normalized.encode("utf-8"))
     return digest.hexdigest()
+
+
+def _new_historical_plateau_state() -> Any:
+    path = HISTORICAL_SOURCE_ROOT / "src" / "drl_multiseed" / "early_stop.py"
+    module_name = "_h3c_historical_early_stop"
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("the historical early-stop owner could not be loaded")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module.PlateauState(min_epoch=100, patience=3, min_delta_fraction=0.01)
 
 
 def _historical_configuration_hashes() -> dict[str, dict[str, str]]:
@@ -264,6 +295,99 @@ def verify() -> dict[str, int | float]:
                 if not _close(float(summary[f"seed{seed}"]), target):
                     failures.append(f"seed value differs: {case}/{algorithm}/{metric}/seed{seed}")
 
+    _, training_rows = _read_csv("training_epochs.csv")
+    _, evaluation_rows = _read_csv("training_window_evaluations.csv")
+    if len(training_rows) != EXPECTED_TRAINING_ROWS:
+        failures.append(
+            f"training history contains {len(training_rows)} rows, not {EXPECTED_TRAINING_ROWS}"
+        )
+    if len(evaluation_rows) != EXPECTED_TRAINING_EVALUATION_ROWS:
+        failures.append(
+            "training-window evaluation history contains "
+            f"{len(evaluation_rows)} rows, not {EXPECTED_TRAINING_EVALUATION_ROWS}"
+        )
+
+    expected_training_keys = {
+        (task, seed) for task in EXPECTED_TRAINING_TASKS for seed in EXPECTED_SEEDS
+    }
+    training_by_key: dict[tuple[str, int], list[dict[str, str]]] = defaultdict(list)
+    evaluation_by_key: dict[tuple[str, int], list[dict[str, str]]] = defaultdict(list)
+    try:
+        for row in training_rows:
+            training_by_key[(row["task"], int(row["seed"]))].append(row)
+        for row in evaluation_rows:
+            evaluation_by_key[(row["task"], int(row["seed"]))].append(row)
+    except (KeyError, ValueError) as error:
+        failures.append(f"invalid training-history identity: {error}")
+
+    if set(training_by_key) != expected_training_keys:
+        failures.append("training history does not contain the 15 registered task--seed groups")
+    if set(evaluation_by_key) != expected_training_keys:
+        failures.append(
+            "training-window history does not contain the 15 registered task--seed groups"
+        )
+
+    stop_epochs: dict[tuple[str, int], int] = {}
+    for key in sorted(expected_training_keys & set(training_by_key)):
+        task, _ = key
+        expected_case, expected_algorithm, steps_per_epoch = EXPECTED_TRAINING_TASKS[task]
+        try:
+            rows = sorted(training_by_key[key], key=lambda row: int(row["epoch"]))
+            epochs = [int(row["epoch"]) for row in rows]
+            if epochs != list(range(1, len(rows) + 1)):
+                failures.append(f"training epochs are not continuous: {task}/seed{key[1]}")
+            rewards = [float(row["reward_mean"]) for row in rows]
+            for index, row in enumerate(rows):
+                epoch = epochs[index]
+                if row["case"] != expected_case or row["algorithm"] != expected_algorithm:
+                    failures.append(f"training labels differ: {task}/seed{key[1]}/epoch{epoch}")
+                if int(row["global_step"]) != epoch * steps_per_epoch:
+                    failures.append(
+                        f"training global step differs: {task}/seed{key[1]}/epoch{epoch}"
+                    )
+                expected_rolling = statistics.fmean(rewards[max(0, index - 29) : index + 1])
+                if not _close(float(row["rolling_30"]), expected_rolling):
+                    failures.append(f"rolling-30 reward differs: {task}/seed{key[1]}/epoch{epoch}")
+            stop_epochs[key] = epochs[-1]
+        except (KeyError, ValueError) as error:
+            failures.append(f"invalid training history for {task}/seed{key[1]}: {error}")
+
+    for key in sorted(expected_training_keys & set(evaluation_by_key)):
+        task, _ = key
+        expected_case, expected_algorithm, steps_per_epoch = EXPECTED_TRAINING_TASKS[task]
+        try:
+            rows = sorted(evaluation_by_key[key], key=lambda row: int(row["epoch"]))
+            epochs = [int(row["epoch"]) for row in rows]
+            stop_epoch = stop_epochs[key]
+            if epochs != list(range(25, stop_epoch + 1, 25)):
+                failures.append(f"training-window evaluation epochs differ: {task}/seed{key[1]}")
+            plateau = _new_historical_plateau_state()
+            recorded_stops: list[bool] = []
+            for row in rows:
+                epoch = int(row["epoch"])
+                if row["case"] != expected_case or row["algorithm"] != expected_algorithm:
+                    failures.append(
+                        f"training-window labels differ: {task}/seed{key[1]}/epoch{epoch}"
+                    )
+                if int(row["global_step"]) != epoch * steps_per_epoch:
+                    failures.append(
+                        f"training-window global step differs: {task}/seed{key[1]}/epoch{epoch}"
+                    )
+                replay = plateau.update(epoch, float(row["return"]))
+                actual_best = _parse_bool(row["actual_best"], field="actual_best")
+                should_stop = _parse_bool(row["should_stop"], field="should_stop")
+                recorded_stops.append(should_stop)
+                if actual_best != replay["actual_best"]:
+                    failures.append(
+                        f"best-checkpoint flag differs: {task}/seed{key[1]}/epoch{epoch}"
+                    )
+                if should_stop != replay["should_stop"]:
+                    failures.append(f"early-stop flag differs: {task}/seed{key[1]}/epoch{epoch}")
+            if recorded_stops != [False] * (len(rows) - 1) + [True]:
+                failures.append(f"early stop is not unique and terminal: {task}/seed{key[1]}")
+        except (KeyError, ValueError) as error:
+            failures.append(f"invalid training-window history for {task}/seed{key[1]}: {error}")
+
     maximum_error = 0.0
     try:
         calculated = recompute(RESULT_ROOT / "drl_evaluation_timeseries.csv")
@@ -279,6 +403,8 @@ def verify() -> dict[str, int | float]:
             len(seeds) for seeds in historical["configuration_hashes"].values()
         ),
         "historical_preflight_models": historical_preflight_models,
+        "training_rows": len(training_rows),
+        "training_evaluation_rows": len(evaluation_rows),
         "recomputed_metrics": len(RECOMPUTED_METRICS),
         "maximum_absolute_difference": maximum_error,
     }
@@ -290,6 +416,8 @@ def main() -> None:
         f"Verified {result['files']} reference files and {result['models']} DRL models; "
         f"{result['historical_configurations']} historical configurations and "
         f"{result['historical_preflight_models']} historical preflight models; "
+        f"{result['training_rows']} training rows and "
+        f"{result['training_evaluation_rows']} training-window evaluations; "
         f"{result['recomputed_metrics']} metrics close with maximum absolute difference "
         f"{result['maximum_absolute_difference']:.3g}."
     )

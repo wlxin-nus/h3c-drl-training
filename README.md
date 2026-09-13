@@ -1,6 +1,6 @@
 # H3C DRL Training
 
-Reproducible training and evaluation code for the five deep reinforcement-learning baselines used
+Reproducible training and evaluation code for the five case--algorithm DRL configurations used
 in *Causality-Constrained Hierarchical LLM Agents for Online Rule Adaptation in Building HVAC
 Control*. The repository trains centralized PPO and multi-agent PPO (MAPPO) policies against an
 externally managed BOPTEST service.
@@ -65,6 +65,25 @@ The allowed study seeds are `42`, `1337`, and `2026`. Each seed is a cold start 
 - optional NVIDIA GPU for MAPPO. PPO normally runs on CPU.
 
 The local capacity manager reserves five worker slots per task. Two simultaneous tasks therefore peak at ten TestIDs, leaving two workers for service overhead and recovery. Capacity leases coordinate processes on one checkout; they do not coordinate multiple computers sharing one BOPTEST server.
+
+## Choose a reproduction target
+
+This release supports three distinct reproducibility goals:
+
+1. **Fresh training with the current source.** Follow the quick start below to train and evaluate
+   the five registered configurations using the maintained publication code.
+2. **Fresh retraining under the historical paper-training contract.** Enter
+   `historical_training_source_287b452`, install its `requirements-lock.txt`, and follow
+   `ORIGINAL_README.md`. The bundled snapshot reproduces the historical source fingerprint and all
+   15 task--seed configuration hashes. It supports fresh retraining, not replay of the retained
+   paper policies.
+3. **Offline verification of the published DRL results.** Use the processed tables and verifier
+   under `reference_results/paper_2026`. Exact direct replay of the 15 evaluated policies is not
+   supported because their best checkpoints, the matching held-out-evaluation source snapshots,
+   and exact BOPTEST image/FMU identities are not bundled.
+
+Do not mix artifacts from these targets. A fresh run should be reported with its own source,
+configuration, dependency, and BOPTEST identities.
 
 ## Quick start on Windows
 
@@ -328,6 +347,15 @@ recomputed metrics:
 python -m scripts.verify_reference_results
 ```
 
+Regenerate the appendix-style epoch training curves from the released CSV:
+
+```powershell
+python -m scripts.plot_training_curves
+```
+
+The command writes PDF, SVG, and PNG files under `artifacts/training_curves/`. It uses only the
+released epoch records and does not contact BOPTEST.
+
 The released time series determine discomfort zone-hours, PMV deviation-hours, occupied peak
 absolute PMV, setpoint total variation, reversals, and occupied comfort-band crossings. They do
 not contain the power, electricity-price, step-cost, or step-reward signals needed to reconstruct
@@ -421,8 +449,9 @@ reference_results/       Processed paper results and integrity metadata
   configuration identities differ from the current publication source tree. The compatible
   historical source/configuration snapshot is included under
   `historical_training_source_287b452`, and the repository independently recomputes six trajectory
-  metrics. Direct replay of the evaluated policies still requires the 15 matching best
-  checkpoints, which are not included.
+  metrics. The snapshot supports fresh retraining under that historical contract. Exact direct
+  replay additionally requires the 15 best checkpoints, the matching held-out-evaluation source
+  snapshots, and the exact BOPTEST image/FMU identities; these are not all included.
 - The published PMV time series use zone air temperature as both dry-bulb and mean-radiant
   temperature in all three cases, including `MZ_Hydro`.
 - Historical training used `pythermalcomfort 3.8.0`, while the canonical held-out evaluation used

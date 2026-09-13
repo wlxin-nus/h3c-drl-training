@@ -26,5 +26,6 @@
   which differs from the publication source fingerprint. The seed-specific scientific
   configuration identities also differ. Consequently, the checkpoints alone would not pass the
   release evaluator's identity checks. Direct replay requires the checkpoints together with their
-  matching historical source and configuration package. The compatible historical source and all
-  15 task--seed configuration identities are bundled, but the evaluated checkpoints are not.
+  matching historical training configuration, held-out-evaluation source, and exact BOPTEST
+  image/FMU identities. The compatible historical training source and all 15 task--seed
+  configuration identities are bundled, but the remaining assets are not all available.

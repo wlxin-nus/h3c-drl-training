@@ -47,6 +47,21 @@ def main() -> None:
         raise SystemExit(f"Forbidden release directories: {present_forbidden}")
 
     violations: list[str] = []
+    version_sources = {
+        "pyproject.toml": r'^version\s*=\s*"([^"]+)"',
+        "CITATION.cff": r"^version:\s*([^\s]+)",
+        "src/drl_multiseed/__init__.py": r'^__version__\s*=\s*"([^"]+)"',
+    }
+    versions: dict[str, str] = {}
+    for name, pattern in version_sources.items():
+        match = re.search(pattern, (ROOT / name).read_text(encoding="utf-8"), re.MULTILINE)
+        if match is None:
+            violations.append(f"release version is missing: {name}")
+        else:
+            versions[name] = match.group(1)
+    if len(set(versions.values())) > 1:
+        violations.append(f"release versions differ: {versions}")
+
     for path in sorted(ROOT.rglob("*")):
         if not path.is_file() or ".git" in path.parts or ".venv" in path.parts:
             continue
@@ -85,6 +100,7 @@ def main() -> None:
         compile("".join(cell["source"]), str(notebook_path), "exec")
 
     required = {
+        ".gitattributes",
         "CITATION.cff",
         "CHECKSUMS.sha256",
         "LICENSE",
@@ -92,6 +108,7 @@ def main() -> None:
         "SECURITY.md",
         "THIRD_PARTY_NOTICES.md",
         "requirements.txt",
+        "requirements-dev.txt",
         "historical_training_source_287b452/contract.json",
         "historical_training_source_287b452/README.md",
         "historical_training_source_287b452/models/registry.json",
@@ -103,7 +120,10 @@ def main() -> None:
         "reference_results/paper_2026/drl_evaluation_timeseries.csv",
         "reference_results/paper_2026/drl_metric_summary.csv",
         "reference_results/paper_2026/drl_run_metrics.csv",
+        "reference_results/paper_2026/training_epochs.csv",
+        "reference_results/paper_2026/training_window_evaluations.csv",
         "reference_results/paper_2026/manifest.json",
+        "scripts/plot_training_curves.py",
     }
     missing = sorted(name for name in required if not (ROOT / name).is_file())
     if missing:

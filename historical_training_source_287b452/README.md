@@ -23,10 +23,11 @@ manifests. This compatibility is verified by the repository-level checker; the s
 presented as the exact Git object recorded by every run manifest.
 
 The 15 best checkpoints evaluated in the paper are not included. The archive supports the
-historical offline preflight and fresh retraining against an external BOPTEST service, but direct
-replay of the evaluated policies additionally requires those matching checkpoints.
+historical offline preflight and fresh retraining against an external BOPTEST service. Exact
+direct replay of the published policies additionally requires those checkpoints, the matching
+held-out-evaluation source snapshots, and the original BOPTEST image/FMU identities.
 
-The archive intentionally excludes generated runs, raw simulator data, large legacy notebooks,
-and large legacy notebooks. The five bundled legacy policy files serve only the historical
+The archive intentionally excludes generated runs, raw simulator data, and large legacy
+notebooks. The five bundled legacy policy files serve only the historical
 preflight and are not the 15 evaluated paper checkpoints. No command in the repository CI
 contacts BOPTEST or another external service.

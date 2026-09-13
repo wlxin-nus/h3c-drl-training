@@ -67,4 +67,6 @@ def test_released_reference_results_are_integrity_and_metric_closed() -> None:
     assert result["models"] == 15
     assert result["historical_configurations"] == 15
     assert result["historical_preflight_models"] == 5
+    assert result["training_rows"] == 4225
+    assert result["training_evaluation_rows"] == 169
     assert result["recomputed_metrics"] == 6

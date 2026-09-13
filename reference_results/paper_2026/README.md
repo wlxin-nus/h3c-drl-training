@@ -43,6 +43,15 @@ recomputed metrics:
 python -m scripts.verify_reference_results
 ```
 
+Regenerate the epoch-level training curves from `training_epochs.csv`:
+
+```console
+python -m scripts.plot_training_curves
+```
+
+The plotting command writes PDF, SVG, and PNG files to `artifacts/training_curves/`. The curves
+show raw epoch-level training rewards and are not held-out control-performance results.
+
 The time-series table does not contain power, electricity price, step cost, or step reward.
 Consequently, it cannot independently reconstruct reward, cost, or energy use; their audited
 terminal values are included in the run and summary tables. Publishing those additional raw
@@ -52,7 +61,9 @@ This package also omits BOPTEST test identifiers, local paths, run UUIDs, raw si
 and the 15 evaluated-policy checkpoints. Their historical source and seed-specific configuration
 identities differ from the current publication source tree. A compatible snapshot whose
 fingerprint and all 15 task--seed hashes match the retained manifests is included under
-`historical_training_source_287b452`. Direct replay still requires the missing best checkpoints.
+`historical_training_source_287b452`. The snapshot supports fresh retraining under the historical
+contract. Exact direct replay additionally requires the missing best checkpoints, matching
+held-out-evaluation source snapshots, and original BOPTEST image/FMU identities.
 
 The released PMV values use zone air temperature as both dry-bulb and mean-radiant temperature in
 all cases, including `MZ_Hydro`. See the repository

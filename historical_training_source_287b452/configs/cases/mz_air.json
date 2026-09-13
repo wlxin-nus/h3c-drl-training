@@ -1,0 +1,108 @@
+{
+  "profile_schema": "h3c_case_profile",
+  "schema_version": 1,
+  "profile": "MZ_Air",
+  "testcase": "multizone_office_simple_air",
+  "evaluation_start_day": 199,
+  "control_step_seconds": 900,
+  "forecast_steps": 4,
+  "zones": {
+    "cor": {
+      "description": "Core Zone",
+      "temperature_sensor": "hvac_reaZonCor_TZon_y",
+      "cooling_setpoint_actuator": "hvac_oveZonSupCor_TZonCooSet_u",
+      "occupancy_forecast": "Occupancy[cor]"
+    },
+    "eas": {
+      "description": "East Zone",
+      "temperature_sensor": "hvac_reaZonEas_TZon_y",
+      "cooling_setpoint_actuator": "hvac_oveZonSupEas_TZonCooSet_u",
+      "occupancy_forecast": "Occupancy[eas]"
+    },
+    "nor": {
+      "description": "North Zone",
+      "temperature_sensor": "hvac_reaZonNor_TZon_y",
+      "cooling_setpoint_actuator": "hvac_oveZonSupNor_TZonCooSet_u",
+      "occupancy_forecast": "Occupancy[nor]"
+    },
+    "sou": {
+      "description": "South Zone",
+      "temperature_sensor": "hvac_reaZonSou_TZon_y",
+      "cooling_setpoint_actuator": "hvac_oveZonSupSou_TZonCooSet_u",
+      "occupancy_forecast": "Occupancy[sou]"
+    },
+    "wes": {
+      "description": "West Zone",
+      "temperature_sensor": "hvac_reaZonWes_TZon_y",
+      "cooling_setpoint_actuator": "hvac_oveZonSupWes_TZonCooSet_u",
+      "occupancy_forecast": "Occupancy[wes]"
+    }
+  },
+  "global_inputs": {
+    "outdoor_temperature": "TDryBul",
+    "solar_irradiance": "HGloHor",
+    "electricity_price": "PriceElectricPowerDynamic",
+    "power_meters": [
+      "chi_reaPChi_y",
+      "chi_reaPPumDis_y",
+      "heaPum_reaPHeaPum_y",
+      "heaPum_reaPPumDis_y",
+      "hvac_reaAhu_PFanSup_y",
+      "hvac_reaAhu_PPumCoo_y",
+      "hvac_reaAhu_PPumHea_y"
+    ]
+  },
+  "static_controls": {
+    "hvac_oveAhu_TSupSet_u": 290.15,
+    "hvac_oveAhu_TSupSet_activate": 1,
+    "hvac_oveZonSupCor_TZonHeaSet_u": 288.15,
+    "hvac_oveZonSupCor_TZonHeaSet_activate": 1,
+    "hvac_oveZonSupCor_TZonCooSet_activate": 1,
+    "hvac_oveZonSupEas_TZonHeaSet_u": 288.15,
+    "hvac_oveZonSupEas_TZonHeaSet_activate": 1,
+    "hvac_oveZonSupEas_TZonCooSet_activate": 1,
+    "hvac_oveZonSupNor_TZonHeaSet_u": 288.15,
+    "hvac_oveZonSupNor_TZonHeaSet_activate": 1,
+    "hvac_oveZonSupNor_TZonCooSet_activate": 1,
+    "hvac_oveZonSupSou_TZonHeaSet_u": 288.15,
+    "hvac_oveZonSupSou_TZonHeaSet_activate": 1,
+    "hvac_oveZonSupSou_TZonCooSet_activate": 1,
+    "hvac_oveZonSupWes_TZonHeaSet_u": 288.15,
+    "hvac_oveZonSupWes_TZonHeaSet_activate": 1,
+    "hvac_oveZonSupWes_TZonCooSet_activate": 1
+  },
+  "occupancy": {
+    "mode": "official_hvac_window",
+    "window_start_minute": 360,
+    "window_end_minute": 1140,
+    "interval": "half_open",
+    "source": "https://ibpsa.github.io/project1-boptest/docs-testcases/multizone_office_simple_air/index.html"
+  },
+  "protocol": {
+    "initialization_mode": "evaluation_start_internal_warmup",
+    "internal_warmup_days": 7,
+    "formal_evaluation_days": 7,
+    "initial_setpoint_c": 25.0
+  },
+  "comfort": {
+    "dynamic_clothing": true,
+    "metabolic_rate": 1.1,
+    "relative_humidity_percent": 50.0,
+    "air_velocity_m_s": 0.1,
+    "winter_clothing_insulation": 1.0,
+    "summer_clothing_insulation": 0.5,
+    "clothing_transition_low_c": 10.0,
+    "clothing_transition_high_c": 26.0
+  },
+  "objective": {
+    "energy_weight": 1.0,
+    "comfort_weight": 20.0,
+    "smoothness_weight": 0.1,
+    "energy_scale": 18.532822,
+    "comfort_scale": 10.0,
+    "smoothness_scale": 0.386932
+  },
+  "performance": {"maximum_power_w": 40000.0},
+  "graph": "configs/graphs/mz_air_confirmed.json",
+  "program": "configs/programs/canonical_cooling_program.json"
+}

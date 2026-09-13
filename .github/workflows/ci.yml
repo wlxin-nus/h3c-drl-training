@@ -28,6 +28,7 @@ jobs:
         run: |
           python scripts/check_release.py
           python scripts/self_check.py
+          python -m scripts.verify_reference_results
       - name: Check formatting and lint
         run: |
           python -m ruff format --check --no-cache src scripts tests notebooks

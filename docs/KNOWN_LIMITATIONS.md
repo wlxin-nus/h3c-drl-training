@@ -11,6 +11,20 @@
   mean-radiant temperature to the PMV implementation. Any manuscript statement
   describing a different Hydronic radiant-temperature approximation must be reconciled
   with this released implementation.
+- Historical training used `pythermalcomfort 3.8.0`, whereas canonical held-out evaluation used
+  `3.9.8`. Their PMV kernel and constants were checked as numerically equivalent for the exact
+  project call path (`pmv_ppd_iso`, ISO/SI, `limit_inputs=False`, default rounding), not for every
+  API path, platform, or future release.
 - The Hydronic missing-occupancy fallback uses the calendar origin recorded in its case
   profile. This fallback is invoked only when BOPTEST returns missing occupancy values;
   normal runs use the supplied forecast directly.
+- The processed release includes zone-level held-out time series, but not raw BOPTEST trajectories,
+  service identifiers, power, tariff, or per-step reward. Reward, cost, and energy therefore cannot
+  be reconstructed independently from the released time series.
+- The 15 evaluated best checkpoints are not committed to Git. Their historical training source
+  fingerprint is `aca13c42236511fc7e428ce0c9f2969c39d53779cc2d5c9880dcaf8e2cf46272`,
+  which differs from the publication source fingerprint. The seed-specific scientific
+  configuration identities also differ. Consequently, the checkpoints alone would not pass the
+  release evaluator's identity checks. Direct replay requires the checkpoints together with their
+  matching historical source and configuration package. The compatible historical source and all
+  15 task--seed configuration identities are bundled, but the evaluated checkpoints are not.

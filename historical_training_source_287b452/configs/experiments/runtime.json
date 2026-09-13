@@ -1,0 +1,36 @@
+{
+  "runtime_schema": "h3c_runtime_contract",
+  "schema_version": 4,
+  "model": {
+    "default_provider": "baseten-deepseek",
+    "providers": {
+      "deepseek-official": {
+        "model": "deepseek-v4-flash",
+        "endpoint_environment_variable": "H3C_MODEL_ENDPOINT",
+        "fixed_endpoint": null,
+        "api_key_environment_variable": "H3C_MODEL_API_KEY",
+        "session_affinity_header": null,
+        "retryable_status_codes": [429, 503],
+        "response_format": "json_object"
+      },
+      "baseten-deepseek": {
+        "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+        "endpoint_environment_variable": null,
+        "fixed_endpoint": "https://inference.baseten.co/v1",
+        "api_key_environment_variable": "BASETEN_API_KEY",
+        "session_affinity_header": "x-session-affinity",
+        "retryable_status_codes": [429, 500, 502, 503, 504, 529],
+        "response_format": "json_schema"
+      }
+    },
+    "thinking_reasoning_effort": "low",
+    "no_thinking_temperature": 0.0,
+    "no_thinking_top_p": 1.0,
+    "retry_count": 2,
+    "retry_backoff_seconds": [1.0, 2.0]
+  },
+  "physical_service": {
+    "endpoint_environment_variable": "H3C_BOPTEST_ENDPOINT",
+    "retry_count": 0
+  }
+}

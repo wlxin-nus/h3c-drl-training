@@ -1,0 +1,30 @@
+{
+  "graph_mutation_schema": "h3c_graph_mutation_catalog",
+  "schema_version": 1,
+  "mutations": {
+    "missing_solar_zone_edge": {
+      "kind": "remove_edge",
+      "edge": {
+        "source": "solar_irr",
+        "relation": "Positive Corr",
+        "target": "zone_temp"
+      }
+    },
+    "delayed_solar_zone_edge": {
+      "kind": "change_immediate_to_delayed",
+      "edge": {
+        "source": "solar_irr",
+        "relation": "Positive Corr",
+        "target": "zone_temp"
+      }
+    },
+    "immediate_solar_zone_edge": {
+      "kind": "change_delayed_to_immediate",
+      "edge": {
+        "source": "solar_irr",
+        "relation": "Positive Corr",
+        "target": "zone_temp"
+      }
+    }
+  }
+}

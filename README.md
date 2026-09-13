@@ -1,8 +1,23 @@
 # H3C DRL Training
 
-Reproducible training code for the five deep reinforcement-learning baselines used in the H3C building-control study. The repository trains centralized PPO and multi-agent PPO (MAPPO) policies against an externally managed BOPTEST service.
+Reproducible training and evaluation code for the five deep reinforcement-learning baselines used
+in *Causality-Constrained Hierarchical LLM Agents for Online Rule Adaptation in Building HVAC
+Control*. The repository trains centralized PPO and multi-agent PPO (MAPPO) policies against an
+externally managed BOPTEST service.
 
-This is a source-code release for training and deterministic evaluation. It deliberately excludes pretrained checkpoints, historical notebooks, generated results, BOPTEST server images, MPC/RBC implementations, and the broader H3C agent framework.
+The release includes processed paper results, de-identified evaluation time series, and a
+scientifically compatible snapshot of the historical training source. It excludes the 15
+evaluated-policy checkpoints, raw BOPTEST trajectories, and BOPTEST server images. The historical
+snapshot retains the compatibility modules and five legacy policies required by its offline
+preflight; these are not the paper's 15 evaluated policies or standalone companion implementations.
+
+## Research artifact family
+
+| Artifact | Scope | Repository |
+|---|---|---|
+| H3C | Hierarchical Agent framework, rule admission, execution, and Agent results | [ideas-lab-nus/H3C](https://github.com/ideas-lab-nus/H3C) |
+| DRL training | PPO/MAPPO training, evaluation, and DRL reference results | This repository |
+| MPC training | ARX identification, hierarchical MPC validation, and frozen MPC models | [wlxin-nus/building-mpc-training](https://github.com/wlxin-nus/building-mpc-training) |
 
 ## Scope
 
@@ -16,6 +31,9 @@ The release contains:
 - serial or two-task parallel scheduling;
 - W&B, TensorBoard, CSV, JSON, and JSONL logging;
 - deterministic held-out evaluation and multi-seed aggregation;
+- processed run metrics, training histories, and de-identified held-out time series;
+- the historical source/configuration snapshot whose fingerprint and all 15 task--seed hashes
+  match the retained training manifests;
 - offline unit tests and a read-only monitoring notebook.
 
 It does **not** install or start BOPTEST. Provision BOPTEST separately before running a live smoke test or full training.
@@ -24,7 +42,7 @@ It does **not** install or start BOPTEST. Provision BOPTEST separately before ru
 
 | Task key | Case | Algorithm | Global observation | Local observation | Action | Episode | Maximum |
 |---|---|---|---:|---:|---:|---:|---:|
-| `sz_air_ppo` | BESTEST single-zone air | PPO | 36 | — | 1 | 672 steps (7 days) | 700 epochs |
+| `sz_air_ppo` | BESTEST single-zone four-pipe FCU | PPO | 36 | — | 1 | 672 steps (7 days) | 700 epochs |
 | `mz_air_ppo` | Multizone office air | PPO | 96 | — | 5 | 672 steps (7 days) | 700 epochs |
 | `mz_air_mappo` | Multizone office air | MAPPO | 96 | 36 per actor | 5 | 672 steps (7 days) | 700 epochs |
 | `mz_hydro_ppo` | Multizone office hydronic | PPO | 51 | — | 2 | 480 steps (5 days) | 700 epochs |
@@ -287,6 +305,35 @@ The aggregate also writes `drl_information_contract.csv`. It documents only the 
 DRL baselines; cross-method information fairness with H3C must be established using the
 companion H3C method archive.
 
+## Verify the paper results
+
+Processed paper results are released under
+[`reference_results/paper_2026`](reference_results/paper_2026/README.md). The package contains 15 run-level
+rows, five task-by-seed groups, training curves, training-window evaluations, and de-identified
+held-out time series.
+
+Run the commands below from a complete Git checkout. The research data and historical source
+snapshot are repository assets and are not installed by the runtime wheel.
+
+Recompute occupied comfort and setpoint-dynamics metrics from the released time series:
+
+```powershell
+python -m scripts.recompute_paper_metrics
+```
+
+Verify hashes, row counts, task/seed coverage, multi-seed summary statistics, and the independently
+recomputed metrics:
+
+```powershell
+python -m scripts.verify_reference_results
+```
+
+The released time series determine discomfort zone-hours, PMV deviation-hours, occupied peak
+absolute PMV, setpoint total variation, reversals, and occupied comfort-band crossings. They do
+not contain the power, electricity-price, step-cost, or step-reward signals needed to reconstruct
+reward, cost, or energy; the audited terminal values for those metrics remain available in the
+run and summary tables.
+
 ## Outputs
 
 Generated files are ignored by Git and written under:
@@ -360,6 +407,7 @@ notebooks/               Read-only training monitor
 scripts/                 PowerShell launchers and integrity checks
 src/drl_multiseed/       Training code and packaged case/observation contracts
 tests/                   Offline regression tests
+reference_results/       Processed paper results and integrity metadata
 ```
 
 ## Reproducibility boundaries
@@ -369,6 +417,17 @@ tests/                   Offline regression tests
 - GPU kernels and parallel HTTP scheduling can prevent bit-for-bit equality across hardware. The protocol targets configuration and statistical reproducibility, not identical floating-point trajectories across machines.
 - The registered 5-day and 7-day held-out windows are short-period evaluations and should not be described as long-term deployment tests.
 - The canonical MZ-Air MAPPO task preserves the registered done-based GAE and minibatch advantage normalization. Unreported screening candidates are intentionally excluded from this release.
+- The processed results were produced by historical runs whose source and seed-specific
+  configuration identities differ from the current publication source tree. The compatible
+  historical source/configuration snapshot is included under
+  `historical_training_source_287b452`, and the repository independently recomputes six trajectory
+  metrics. Direct replay of the evaluated policies still requires the 15 matching best
+  checkpoints, which are not included.
+- The published PMV time series use zone air temperature as both dry-bulb and mean-radiant
+  temperature in all three cases, including `MZ_Hydro`.
+- Historical training used `pythermalcomfort 3.8.0`, while the canonical held-out evaluation used
+  `3.9.8`. The PMV kernel and constants were checked as numerically equivalent for this project's
+  exact `pmv_ppd_iso` call path; this does not imply bitwise equality across platforms.
 
 See [Reproducibility](docs/REPRODUCIBILITY.md), [Security](SECURITY.md), and [Known limitations](docs/KNOWN_LIMITATIONS.md).
 

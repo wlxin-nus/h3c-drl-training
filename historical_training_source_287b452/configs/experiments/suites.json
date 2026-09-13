@@ -1,0 +1,10 @@
+{
+  "suite_schema": "h3c_suite_contract",
+  "schema_version": 1,
+  "profile_order": ["SZ_Air", "MZ_Hydro", "MZ_Air"],
+  "graph_timing_mutation_by_profile": {
+    "SZ_Air": "delayed_solar_zone_edge",
+    "MZ_Hydro": "immediate_solar_zone_edge",
+    "MZ_Air": "delayed_solar_zone_edge"
+  }
+}

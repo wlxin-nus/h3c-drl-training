@@ -1,0 +1,12 @@
+{
+  "diagnostic_window_schema": "h3c_diagnostic_window_catalog",
+  "schema_version": 1,
+  "windows": {
+    "mz-air-06-12": {
+      "profile": "MZ_Air",
+      "evaluation_start_offset_seconds": 21600,
+      "evaluation_hours": 6,
+      "description": "Occupied-start diagnostic from day 199 06:00 to 12:00 after the registered seven-day internal warm-up."
+    }
+  }
+}

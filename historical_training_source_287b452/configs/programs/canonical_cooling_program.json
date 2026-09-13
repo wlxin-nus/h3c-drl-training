@@ -1,0 +1,20 @@
+{
+  "program_id": "canonical_cooling_program",
+  "spec_version": 2,
+  "precool_trigger": "rolling",
+  "params": {
+    "precool_lead_steps": 4,
+    "precool_residual_c": -5.0,
+    "pmv_band_lo": 0.3,
+    "pmv_band_hi": 0.45,
+    "pmv_step_c": 0.3
+  },
+  "rules": [
+    {"id": "precool", "when": [{"field": "occupied_now", "op": "==", "value": 0}, {"field": "precool_due", "op": "==", "value": 1}], "then": {"op": "set_residual", "value": {"param": "precool_residual_c"}}},
+    {"id": "pmv_raise", "when": [{"field": "occupied_now", "op": "==", "value": 1}, {"field": "last_pmv", "op": "<", "value": {"param": "pmv_band_lo"}}], "then": {"op": "step_setpoint", "value": {"param": "pmv_step_c"}}},
+    {"id": "pmv_lower", "when": [{"field": "occupied_now", "op": "==", "value": 1}, {"field": "last_pmv", "op": ">", "value": {"param": "pmv_band_hi"}}], "then": {"op": "step_setpoint", "value": {"neg_param": "pmv_step_c"}}},
+    {"id": "anchor", "when": [{"field": "occupied_now", "op": "==", "value": 1}, {"field": "occupied_last", "op": "==", "value": 0}], "then": {"op": "set_residual", "value": 0.0}},
+    {"id": "occupied_hold", "when": [{"field": "occupied_now", "op": "==", "value": 1}], "then": {"op": "hold_setpoint"}},
+    {"id": "unoccupied_hold", "when": [{"field": "occupied_now", "op": "==", "value": 0}], "then": {"op": "set_residual", "value": 0.0}}
+  ]
+}

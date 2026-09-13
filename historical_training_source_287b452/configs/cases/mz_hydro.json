@@ -1,0 +1,87 @@
+{
+  "profile_schema": "h3c_case_profile",
+  "schema_version": 1,
+  "profile": "MZ_Hydro",
+  "testcase": "multizone_office_simple_hydronic",
+  "evaluation_start_day": 220,
+  "control_step_seconds": 900,
+  "forecast_steps": 4,
+  "zones": {
+    "NZ": {
+      "description": "North Zone",
+      "temperature_sensor": "structure_reaTZonNz_y",
+      "cooling_setpoint_actuator": "bms_oveTZonSetMaxNz_u",
+      "occupancy_forecast": "Occupancy[nZ]"
+    },
+    "SZ": {
+      "description": "South Zone",
+      "temperature_sensor": "structure_reaTZonSz_y",
+      "cooling_setpoint_actuator": "bms_oveTZonSetMaxSz_u",
+      "occupancy_forecast": "Occupancy[sZ]"
+    }
+  },
+  "global_inputs": {
+    "outdoor_temperature": "TDryBul",
+    "solar_irradiance": "HGloHor",
+    "electricity_price": "PriceElectricPowerDynamic",
+    "power_meters": [
+      "heating_cooling_reaPFcuNz_y",
+      "heating_cooling_reaPFcuSz_y",
+      "heating_cooling_reaPProCoo_y",
+      "heating_cooling_reaPProHea_y"
+    ]
+  },
+  "static_controls": {
+    "bms_oveTZonSetMinNz_u": 288.15,
+    "bms_oveTZonSetMinNz_activate": 1,
+    "bms_oveTZonSetMinSz_u": 288.15,
+    "bms_oveTZonSetMinSz_activate": 1,
+    "bms_oveTZonSetMaxNz_activate": 1,
+    "bms_oveTZonSetMaxSz_activate": 1
+  },
+  "occupancy": {
+    "mode": "raw_count_positive",
+    "source": "BOPTEST occupancy forecast",
+    "missing_value_resolution": {
+      "calendar_origin_utc": "2021-01-01T00:00:00+00:00",
+      "occupied_weekdays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "occupied_window_start_minute": 420,
+      "occupied_window_end_minute": 1140,
+      "interval": "half_open",
+      "holiday_month_days": [
+        "01-01", "04-17", "04-18", "05-01", "05-26", "06-05",
+        "06-06", "07-21", "08-15", "11-01", "11-11", "12-25"
+      ],
+      "documented_nonoccupancy_rule": "zero",
+      "documented_occupancy_rule": "previous_step",
+      "source": "https://ibpsa.github.io/project1-boptest/docs-testcases/multizone_office_simple_hydronic/index.html"
+    }
+  },
+  "protocol": {
+    "initialization_mode": "evaluation_start_internal_warmup",
+    "internal_warmup_days": 7,
+    "formal_evaluation_days": 5,
+    "initial_setpoint_c": 25.0
+  },
+  "comfort": {
+    "dynamic_clothing": false,
+    "metabolic_rate": 1.1,
+    "relative_humidity_percent": 50.0,
+    "air_velocity_m_s": 0.1,
+    "winter_clothing_insulation": 1.0,
+    "summer_clothing_insulation": 0.5,
+    "clothing_transition_low_c": 10.0,
+    "clothing_transition_high_c": 26.0
+  },
+  "objective": {
+    "energy_weight": 1.0,
+    "comfort_weight": 20.0,
+    "smoothness_weight": 0.1,
+    "energy_scale": 3.0,
+    "comfort_scale": 10.0,
+    "smoothness_scale": 0.1755995
+  },
+  "performance": {"maximum_power_w": 35000.0},
+  "graph": "configs/graphs/mz_hydro_confirmed.json",
+  "program": "configs/programs/canonical_cooling_program.json"
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "h3c_baseline_suite",
+  "schema_version": 1,
+  "name": "formal",
+  "case_order": ["SZ_Air", "MZ_Hydro", "MZ_Air"],
+  "controller_order": {
+    "SZ_Air": ["basic-rbc", "enhanced-rbc", "c-drl"],
+    "MZ_Hydro": ["basic-rbc", "enhanced-rbc", "c-drl", "h-drl"],
+    "MZ_Air": ["basic-rbc", "enhanced-rbc", "c-drl", "h-drl"]
+  }
+}

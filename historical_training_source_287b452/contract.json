@@ -1,0 +1,43 @@
+{
+  "schema": "h3c_drl_historical_training_contract",
+  "schema_version": 1,
+  "source_commit": "287b452c2874a36cf2777bd31696192b3622d706",
+  "source_fingerprint": "aca13c42236511fc7e428ce0c9f2969c39d53779cc2d5c9880dcaf8e2cf46272",
+  "registered_seeds": [42, 1337, 2026],
+  "configuration_hashes": {
+    "mz_air_mappo": {
+      "42": "cc4e332c50c199086a26deb7be21f61ed2fcd301b205b7db20c331f959658c6e",
+      "1337": "00377c230edf2bc0cada55f073334f93883dd9a1032ec2e3ada27bb2ee41c64a",
+      "2026": "987f3554c66ea969d1dabd195ae5b8350db949bb992d673267d52c5ea22f4ea9"
+    },
+    "mz_air_ppo": {
+      "42": "3ad17f2906080f7f5b45f5537bd6ec7d3730bbb7870348436a87b4125f27b31c",
+      "1337": "6b225a7abad1e9916d07fb3c71cdb3ff9ff865308a535a7bd0e596710454a0e5",
+      "2026": "fcd818f4235d610535abd4d90427b8917da210eddf27ed2192f4c21dba48b1c9"
+    },
+    "mz_hydro_mappo": {
+      "42": "9a4850b51ca5d3b3b3b6b30027da2d883e78cf34b00103f2a1909be5239b76cb",
+      "1337": "80ec6ae8c9b0b75cb9640c36d78d0f1edf70f340f7a5b85d103a7a2dd1a47efc",
+      "2026": "322972f1e721716c4c1b5ccc8302578b20e3811e1bc889945ee02c617850d4d9"
+    },
+    "mz_hydro_ppo": {
+      "42": "fe25998bbdc14357ea283cf2853d807304c8a2307d687d58d740a8a7ec2df9cd",
+      "1337": "7dd0276784abb75d0aa4662f8aedf0cbde9370fe0e865a3d276a7f74ad91f562",
+      "2026": "07367195c5f340c6311e5fc0547c7023fe7929b24278de9511db8c376ba73f30"
+    },
+    "sz_air_ppo": {
+      "42": "42490db8ebc3e21473d29eca9afab79e83d1bb63f69d9c9a7722902cb235d7dc",
+      "1337": "e70dfa725383f3ec6425fde9a0a626c3a07c9ab449367797a18148b2f21d17e2",
+      "2026": "db2c1222f733e0f45b83a05de1ab2b1465c8c8cc37c01fe1a19dbb7c40c26878"
+    }
+  },
+  "legacy_preflight_models_included": [
+    "sz_air_c_drl",
+    "mz_hydro_c_drl",
+    "mz_hydro_h_drl",
+    "mz_air_c_drl",
+    "mz_air_h_drl"
+  ],
+  "checkpoint_suite_included": false,
+  "privacy_boundary": "No credentials, BOPTEST test IDs, hostnames, local paths, raw simulator data, or checkpoints for the 15 evaluated paper policies. One immutable legacy preflight model retains an opaque historical W&B run identifier and URL."
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "h3c-drl-training-contract-v2-refined",
+  "h3c_source_commit": "23186b2c499e02c042018f71f22ee61b5510b910",
+  "legacy_frozen_registry_sha256": "d82623ffc58528b92874af0336bef2b93f5f35046e5f6df3da462669c6c0a205",
+  "observation_contract": "configs/refined_observation_contracts.json",
+  "refined_observation_contract_canonical_sha256": "dd6008927c5b2e497e05cca1196b5f2730c093f7aa4a20d48d61fe2a4a6ce876",
+  "fixed": {
+    "forecast_offsets_minutes": [0, 15, 30, 45, 60],
+    "temperature_offsets": [0, -1, -2, -3, -4],
+    "action_offsets": [-1, -2, -3, -4],
+    "power_offsets": [-1, -2, -3, -4],
+    "temperature_missing": "repeat_earliest",
+    "mappo_local_layout": "zone_then_shared",
+    "hidden_layers": [256, 256],
+    "training_environments": 4,
+    "deterministic_evaluation_environments": 1,
+    "early_stop_relative_improvement_fraction": 0.01,
+    "action_bounds": [-1.0, 1.0],
+    "physical_setpoint_bounds_c": [20.0, 30.0]
+  },
+  "tasks": {
+    "sz_air_ppo": {"global_observation": 36, "local_observation": null, "action": 1, "zone_order": ["zone1"]},
+    "mz_air_ppo": {"global_observation": 96, "local_observation": null, "action": 5, "zone_order": ["cor", "nor", "sou", "eas", "wes"]},
+    "mz_air_mappo": {"global_observation": 96, "local_observation": 36, "action": 5, "zone_order": ["cor", "nor", "sou", "eas", "wes"]},
+    "mz_hydro_ppo": {"global_observation": 51, "local_observation": null, "action": 2, "zone_order": ["NZ", "SZ"]},
+    "mz_hydro_mappo": {"global_observation": 51, "local_observation": 36, "action": 2, "zone_order": ["NZ", "SZ"]}
+  }
+}

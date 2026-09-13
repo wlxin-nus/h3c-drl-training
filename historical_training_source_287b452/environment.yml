@@ -1,0 +1,9 @@
+name: h3c-drl-multiseed
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - -r requirements-lock.txt
+      - -e . --no-deps

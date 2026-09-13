@@ -1,9 +1,14 @@
 cff-version: 1.2.0
-message: "If you use this software, cite the archived software release and the associated H3C article when its citation is available."
+message: "If you use this software, cite the archived software release and the associated article, Causality-Constrained Hierarchical LLM Agents for Online Rule Adaptation in Building HVAC Control, when its citation is available."
 title: "H3C DRL Training"
 type: software
 authors:
-  - name: "H3C DRL Training Contributors"
+  - family-names: "Xin"
+    given-names: "Weilin"
+  - family-names: "Liang"
+    given-names: "Wei"
+  - family-names: "Chong"
+    given-names: "Adrian"
 version: 1.0.0
 date-released: 2026-09-13
 repository-code: "https://github.com/wlxin-nus/h3c-drl-training"

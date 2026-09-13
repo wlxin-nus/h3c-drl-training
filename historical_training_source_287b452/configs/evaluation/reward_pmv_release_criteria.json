@@ -1,0 +1,22 @@
+{
+  "criteria_schema": "h3c_reward_pmv_release_criteria",
+  "schema_version": 1,
+  "application": "terminal_evaluation_only_never_runtime_admission",
+  "cases": {
+    "MZ_Hydro": {
+      "formal_evaluation_hours": 120,
+      "reward_strictly_greater_than": -179.35418363224142,
+      "occupied_peak_absolute_pmv_at_most": 0.70
+    },
+    "SZ_Air": {
+      "formal_evaluation_hours": 168,
+      "reward_strictly_greater_than": -640.504177761107,
+      "occupied_peak_absolute_pmv_at_most": 0.70
+    },
+    "MZ_Air": {
+      "formal_evaluation_hours": 168,
+      "reward_strictly_greater_than": -559.1299559533957,
+      "occupied_peak_absolute_pmv_at_most": 0.70
+    }
+  }
+}

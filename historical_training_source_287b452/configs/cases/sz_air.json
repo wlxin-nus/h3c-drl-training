@@ -1,0 +1,61 @@
+{
+  "profile_schema": "h3c_case_profile",
+  "schema_version": 1,
+  "profile": "SZ_Air",
+  "testcase": "bestest_air",
+  "evaluation_start_day": 203,
+  "control_step_seconds": 900,
+  "forecast_steps": 4,
+  "zones": {
+    "zone1": {
+      "description": "Single office zone",
+      "temperature_sensor": "zon_reaTRooAir_y",
+      "cooling_setpoint_actuator": "con_oveTSetCoo_u",
+      "occupancy_forecast": "Occupancy[1]"
+    }
+  },
+  "global_inputs": {
+    "outdoor_temperature": "TDryBul",
+    "solar_irradiance": "HGloHor",
+    "electricity_price": "PriceElectricPowerDynamic",
+    "power_meters": ["fcu_reaPCoo_y", "fcu_reaPFan_y", "fcu_reaPHea_y"]
+  },
+  "static_controls": {
+    "con_oveTSetHea_u": 288.15,
+    "con_oveTSetHea_activate": 1,
+    "fcu_oveTSup_u": 290.15,
+    "fcu_oveTSup_activate": 1,
+    "con_oveTSetCoo_activate": 1
+  },
+  "occupancy": {
+    "mode": "raw_count_positive",
+    "source": "BOPTEST occupancy forecast"
+  },
+  "protocol": {
+    "initialization_mode": "evaluation_start_internal_warmup",
+    "internal_warmup_days": 7,
+    "formal_evaluation_days": 7,
+    "initial_setpoint_c": 25.0
+  },
+  "comfort": {
+    "dynamic_clothing": true,
+    "metabolic_rate": 1.1,
+    "relative_humidity_percent": 50.0,
+    "air_velocity_m_s": 0.1,
+    "winter_clothing_insulation": 1.0,
+    "summer_clothing_insulation": 0.5,
+    "clothing_transition_low_c": 10.0,
+    "clothing_transition_high_c": 26.0
+  },
+  "objective": {
+    "energy_weight": 1.0,
+    "comfort_weight": 20.0,
+    "smoothness_weight": 0.1,
+    "energy_scale": 120.351459,
+    "comfort_scale": 10.0,
+    "smoothness_scale": 0.179875
+  },
+  "performance": {"maximum_power_w": 1500.0},
+  "graph": "configs/graphs/sz_air_confirmed.json",
+  "program": "configs/programs/canonical_cooling_program.json"
+}

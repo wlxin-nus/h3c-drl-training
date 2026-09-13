@@ -1,0 +1,1 @@
+"""Mandatory deterministic action assurance."""

@@ -1,0 +1,185 @@
+{
+  "fixtures": {
+    "MZ_Air_c-drl": {
+      "boptest_payload": {
+        "hvac_oveAhu_TSupSet_activate": 1.0,
+        "hvac_oveAhu_TSupSet_u": 290.15,
+        "hvac_oveZonSupCor_TZonCooSet_activate": 1.0,
+        "hvac_oveZonSupCor_TZonCooSet_u": 303.15,
+        "hvac_oveZonSupCor_TZonHeaSet_activate": 1.0,
+        "hvac_oveZonSupCor_TZonHeaSet_u": 288.15,
+        "hvac_oveZonSupEas_TZonCooSet_activate": 1.0,
+        "hvac_oveZonSupEas_TZonCooSet_u": 303.15,
+        "hvac_oveZonSupEas_TZonHeaSet_activate": 1.0,
+        "hvac_oveZonSupEas_TZonHeaSet_u": 288.15,
+        "hvac_oveZonSupNor_TZonCooSet_activate": 1.0,
+        "hvac_oveZonSupNor_TZonCooSet_u": 303.15,
+        "hvac_oveZonSupNor_TZonHeaSet_activate": 1.0,
+        "hvac_oveZonSupNor_TZonHeaSet_u": 288.15,
+        "hvac_oveZonSupSou_TZonCooSet_activate": 1.0,
+        "hvac_oveZonSupSou_TZonCooSet_u": 303.15,
+        "hvac_oveZonSupSou_TZonHeaSet_activate": 1.0,
+        "hvac_oveZonSupSou_TZonHeaSet_u": 288.15,
+        "hvac_oveZonSupWes_TZonCooSet_activate": 1.0,
+        "hvac_oveZonSupWes_TZonCooSet_u": 302.97965439558027,
+        "hvac_oveZonSupWes_TZonHeaSet_activate": 1.0,
+        "hvac_oveZonSupWes_TZonHeaSet_u": 288.15
+      },
+      "case": "MZ_Air",
+      "columns_sha256": "4e9acc2ca88461dc8d0962d37c5e36f3591087f52a7c34d1977edddfddc13efc",
+      "controller": "c-drl",
+      "local_normalized_sha256": {},
+      "model_sha256": "7385e6d9e05593f7aff529f4559ad7f5527b4a25f3d82fddae4646c08b29e11a",
+      "normalized_sha256": "78e0c4b473ab40a249dae35291b5f41fcd235ad62d79483d4c4116732f4d15f0",
+      "raw_action": [1.0, 1.0, 1.0, 1.0, 0.9659308791160583],
+      "raw_sha256": "4efb3afa7cbd5d75f4fbefac5b66223c4f824507034d654fdfde9fe5cb7adb1c",
+      "setpoints_c": {"cor": 30.0, "eas": 30.0, "nor": 30.0, "sou": 30.0, "wes": 29.82965439558029}
+    },
+    "MZ_Air_h-drl": {
+      "boptest_payload": {
+        "hvac_oveAhu_TSupSet_activate": 1.0,
+        "hvac_oveAhu_TSupSet_u": 290.15,
+        "hvac_oveZonSupCor_TZonCooSet_activate": 1.0,
+        "hvac_oveZonSupCor_TZonCooSet_u": 299.59335374236105,
+        "hvac_oveZonSupCor_TZonHeaSet_activate": 1.0,
+        "hvac_oveZonSupCor_TZonHeaSet_u": 288.15,
+        "hvac_oveZonSupEas_TZonCooSet_activate": 1.0,
+        "hvac_oveZonSupEas_TZonCooSet_u": 302.07069190740583,
+        "hvac_oveZonSupEas_TZonHeaSet_activate": 1.0,
+        "hvac_oveZonSupEas_TZonHeaSet_u": 288.15,
+        "hvac_oveZonSupNor_TZonCooSet_activate": 1.0,
+        "hvac_oveZonSupNor_TZonCooSet_u": 300.4428142547607,
+        "hvac_oveZonSupNor_TZonHeaSet_activate": 1.0,
+        "hvac_oveZonSupNor_TZonHeaSet_u": 288.15,
+        "hvac_oveZonSupSou_TZonCooSet_activate": 1.0,
+        "hvac_oveZonSupSou_TZonCooSet_u": 302.95976700782774,
+        "hvac_oveZonSupSou_TZonHeaSet_activate": 1.0,
+        "hvac_oveZonSupSou_TZonHeaSet_u": 288.15,
+        "hvac_oveZonSupWes_TZonCooSet_activate": 1.0,
+        "hvac_oveZonSupWes_TZonCooSet_u": 297.4808900296688,
+        "hvac_oveZonSupWes_TZonHeaSet_activate": 1.0,
+        "hvac_oveZonSupWes_TZonHeaSet_u": 288.15
+      },
+      "case": "MZ_Air",
+      "columns_sha256": "4e9acc2ca88461dc8d0962d37c5e36f3591087f52a7c34d1977edddfddc13efc",
+      "controller": "h-drl",
+      "local_normalized_sha256": {
+        "cor": "7bf4d0aa7ebbce50ba71d5f61a8a0d791fcb17801c84f5aa04085ad3384a54dd",
+        "eas": "995521e0cd257415fbdba0aa6f360c8f245bd88161847b7c801cbb7881b72f7a",
+        "nor": "11fbea8101d3476c4cfcae1b7103362b20337a8776ecf617514e5ca44710cb40",
+        "sou": "a106fe2bf9067660ea8dd5a2f41b7327ac19b0dad88433e475a28365ef1d95d4",
+        "wes": "cf60033854057f5f665f29161ae397bb3c891e11dc90248d9a557dd99c09283f"
+      },
+      "model_sha256": "2b6b1c2c83f4bb71a9651b14b4a87add67ae3c9fc53f2c03971b676698f35a10",
+      "normalized_sha256": "96af9f250abbcb723aa7402ca5e01ea0ff9952e24b5a924bc795f9db1c0847b5",
+      "raw_action": [0.28867074847221375, 0.45856285095214844, 0.9619534015655518, 0.7841383814811707, -0.1338219940662384],
+      "raw_sha256": "1a5193d08ee52321b3d97dfd2f3b63092ac1dc485c2a9d928f9e2856e45ee364",
+      "setpoints_c": {"cor": 26.44335374236107, "eas": 28.920691907405853, "nor": 27.292814254760742, "sou": 29.80976700782776, "wes": 24.330890029668808}
+    },
+    "MZ_Hydro_c-drl": {
+      "boptest_payload": {
+        "bms_oveTZonSetMaxNz_activate": 1.0,
+        "bms_oveTZonSetMaxNz_u": 303.15,
+        "bms_oveTZonSetMaxSz_activate": 1.0,
+        "bms_oveTZonSetMaxSz_u": 303.15,
+        "bms_oveTZonSetMinNz_activate": 1.0,
+        "bms_oveTZonSetMinNz_u": 288.15,
+        "bms_oveTZonSetMinSz_activate": 1.0,
+        "bms_oveTZonSetMinSz_u": 288.15
+      },
+      "case": "MZ_Hydro",
+      "columns_sha256": "4bb50dfc9a41c17e06d5ebcfdfb9115a0eb89a7a12ed024c78762b4eab2ead3c",
+      "controller": "c-drl",
+      "local_normalized_sha256": {},
+      "model_sha256": "beba50eb178a9b5bfa83f2229fe0c4066510ac890d05bb7b8905bda47449e90a",
+      "normalized_sha256": "53995594222df102b5e6f2aaa2e2b37af0d0319fbe5f0aab56fb69fd16269152",
+      "raw_action": [1.0, 1.0],
+      "raw_sha256": "c99bdd458e589b879ef4c3fe2974c2a148587138be95a39834c6e130ae7309c1",
+      "setpoints_c": {"NZ": 30.0, "SZ": 30.0}
+    },
+    "MZ_Hydro_h-drl": {
+      "boptest_payload": {
+        "bms_oveTZonSetMaxNz_activate": 1.0,
+        "bms_oveTZonSetMaxNz_u": 303.14998092651365,
+        "bms_oveTZonSetMaxSz_activate": 1.0,
+        "bms_oveTZonSetMaxSz_u": 303.1235367298126,
+        "bms_oveTZonSetMinNz_activate": 1.0,
+        "bms_oveTZonSetMinNz_u": 288.15,
+        "bms_oveTZonSetMinSz_activate": 1.0,
+        "bms_oveTZonSetMinSz_u": 288.15
+      },
+      "case": "MZ_Hydro",
+      "columns_sha256": "4bb50dfc9a41c17e06d5ebcfdfb9115a0eb89a7a12ed024c78762b4eab2ead3c",
+      "controller": "h-drl",
+      "local_normalized_sha256": {
+        "NZ": "7b9eeba64604360c2a1bb5def1e232a9eb98e62e9acc12ac0dadb0d2aacfdeed",
+        "SZ": "963b93275891ddf12ac4231f02d708ec29989c38d10e40aa17b9e79002464f9c"
+      },
+      "model_sha256": "3644b477c4e05dd3258027747d57b75ed5877447f5947301592098f29de2fd7a",
+      "normalized_sha256": "53995594222df102b5e6f2aaa2e2b37af0d0319fbe5f0aab56fb69fd16269152",
+      "raw_action": [0.9999961853027344, 0.9947073459625244],
+      "raw_sha256": "c99bdd458e589b879ef4c3fe2974c2a148587138be95a39834c6e130ae7309c1",
+      "setpoints_c": {"NZ": 29.999980926513672, "SZ": 29.973536729812622}
+    },
+    "SZ_Air_c-drl": {
+      "boptest_payload": {
+        "con_oveTSetCoo_activate": 1.0,
+        "con_oveTSetCoo_u": 298.77122520059345,
+        "con_oveTSetHea_activate": 1.0,
+        "con_oveTSetHea_u": 288.15,
+        "fcu_oveTSup_activate": 1.0,
+        "fcu_oveTSup_u": 290.15
+      },
+      "case": "SZ_Air",
+      "columns_sha256": "03e550a95e62833cb057901ef62a5b605de5e97e76f219aac5a88da33b731393",
+      "controller": "c-drl",
+      "local_normalized_sha256": {},
+      "model_sha256": "abd5d1adb751d2591f77960d2353cb54566767d3e0143800ea585b8fed2cc553",
+      "normalized_sha256": "c0f0cd09c24ae762f187ed9ef6d6255fe8fec8c1cf9dc75da7da4655ae59725d",
+      "raw_action": [0.1242450401186943],
+      "raw_sha256": "e83fd4f4fe0501f2f23f138a8b67e35d80633369f205460b008349b11ba56ec2",
+      "setpoints_c": {"zone1": 25.62122520059347}
+    }
+  },
+  "schema": "h3c_frozen_policy_inference_golden",
+  "schema_version": 3,
+  "source_basis": "copied training-machine evaluator tensor contracts plus explicit history/time tests; MZ Air H-DRL additionally has an independent archived first-action oracle; MZ Air C-DRL remains a training-log-best reconstruction because its historical evaluator used a mutable unbound path",
+  "source_oracles": {
+    "mz_air_c_drl": {
+      "path": "MZ_OFFICE_AIR/FinalMZAIR.ipynb",
+      "sha256": "c34d4e5f45a322ab15bd0773e42ba2166553643adfb13e20b538590a02a19b3e",
+      "provenance_scope": "saved tensor contract plus retained epoch-281 training-log-best checkpoint; historical CSV lacks checkpoint hash and pre-action observation",
+      "history_offsets": {"temperature": 0, "action": 0, "power": 0},
+      "occupancy": "binary_raw",
+      "time_observation_bounds": [0.0, 1.0]
+    },
+    "mz_air_h_drl": {
+      "path": "MZ_OFFICE_AIR/Visfinal.ipynb",
+      "sha256": "b284c410bb3ee8da36d23b21a8b23f8024bf00ff07e4fb1d34a9e64f7c474980",
+      "provenance_scope": "D-drive Visfinal checkpoint, checkpoint SHA and archived CSV chronology bind the retained model; independent first action reproduced after restoring the [0,1] time-feature bounds",
+      "history_offsets": {"temperature": 0, "action": 0, "power": 0},
+      "local_observation_layout": "shared_then_zone",
+      "occupancy": "binary_raw",
+      "time_observation_bounds": [0.0, 1.0],
+      "archived_csv_sha256": "ca2110902be747f5b49841c33d498995f0cf1dea5e9cdabf0f955f84373c047e"
+    },
+    "mz_hydro_drl": {
+      "path": "Revision1/MZ_Hydronic_Final_PPO_MAPPO_1h_Epoch700_20260822/project/CASE_TEST/rl_retraining_v2.py",
+      "sha256": "8d1f57930521285dd109ab39a735bf83e15b74158dec38560da7b9fa2a08278e",
+      "provenance_scope": "shared delivered PPO/MAPPO environment and final evaluation owner",
+      "time_observation_bounds": [0.0, 1.0],
+      "policy_clothing_forecast_samples": 96
+    },
+    "sz_air_c_drl": {
+      "path": "SZ_AIR/Visualization.ipynb",
+      "sha256": "d28de8178ac414332324e77a549b4c7d191381aeae79633f4b0b433d981d63c7",
+      "history_offsets": {"temperature": 1, "action": 1, "power": 1},
+      "cold_start_action_c": 25.0,
+      "time_observation_bounds": [-1.0, 1.0],
+      "training_computer_owner": {
+        "path": "BESTEST_AIR/FinalSZAIR.ipynb",
+        "sha256": "f7909ca720317878c17f49d43e481d810ca201f550407a6a7db208fcce013ab6"
+      }
+    }
+  }
+}

@@ -7,7 +7,19 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TEXT_SUFFIXES = {".cff", ".json", ".md", ".ps1", ".py", ".toml", ".txt", ".yml", ".yaml"}
+HISTORICAL_ROOT = ROOT / "historical_training_source_287b452"
+TEXT_SUFFIXES = {
+    ".cff",
+    ".csv",
+    ".json",
+    ".md",
+    ".ps1",
+    ".py",
+    ".toml",
+    ".txt",
+    ".yml",
+    ".yaml",
+}
 FORBIDDEN_ROOTS = {
     ".mypy_cache",
     ".pytest_cache",
@@ -42,7 +54,8 @@ def main() -> None:
             continue
         text = path.read_text(encoding="utf-8")
         relative = path.relative_to(ROOT).as_posix()
-        if CJK.search(text):
+        historical_snapshot = HISTORICAL_ROOT == path or HISTORICAL_ROOT in path.parents
+        if CJK.search(text) and not historical_snapshot:
             violations.append(f"non-English CJK text: {relative}")
         if path.resolve() != Path(__file__).resolve():
             if PERSONAL.search(text):
@@ -79,13 +92,28 @@ def main() -> None:
         "SECURITY.md",
         "THIRD_PARTY_NOTICES.md",
         "requirements.txt",
+        "historical_training_source_287b452/contract.json",
+        "historical_training_source_287b452/README.md",
+        "historical_training_source_287b452/models/registry.json",
+        "historical_training_source_287b452/models/sz_air/c_drl/best_model_ppo.zip",
+        "historical_training_source_287b452/models/mz_hydro/c_drl/epoch_0650_steps_001248000.model.zip",
+        "historical_training_source_287b452/models/mz_hydro/h_drl/epoch_0700_steps_001344000.mappo.pt",
+        "historical_training_source_287b452/models/mz_air/c_drl/best_model_ppo.zip",
+        "historical_training_source_287b452/models/mz_air/h_drl/mappo_best.pt",
+        "reference_results/paper_2026/drl_evaluation_timeseries.csv",
+        "reference_results/paper_2026/drl_metric_summary.csv",
+        "reference_results/paper_2026/drl_run_metrics.csv",
+        "reference_results/paper_2026/manifest.json",
     }
     missing = sorted(name for name in required if not (ROOT / name).is_file())
     if missing:
         violations.append(f"missing release files: {missing}")
     if violations:
         raise SystemExit("Release validation failed:\n- " + "\n- ".join(violations))
-    print("Release validation passed: English-only, scoped, credential-free source package.")
+    print(
+        "Release validation passed: the publication source is English-only and the "
+        "integrity-preserved historical snapshot is scoped and credential-free."
+    )
 
 
 if __name__ == "__main__":

@@ -26,9 +26,39 @@
 7. Evaluate each deterministic training-window best on the registered held-out window.
 8. Aggregate only runs with matching protocol, source, case, and BOPTEST identities.
 
+## Verify the released paper results
+
+The processed package under `reference_results/paper_2026` provides an offline route for checking
+the published DRL values without launching BOPTEST. From the repository root, run:
+
+```console
+python -m scripts.verify_reference_results
+```
+
+The verifier checks byte identities and row counts, confirms all five task groups and three seeds,
+recomputes the mean and sample standard deviation in the summary table, and independently derives
+six comfort and setpoint metrics from the released time series. Run
+`python -m scripts.recompute_paper_metrics` for the metric comparison alone.
+
+These checks require a complete repository checkout. The processed data and historical snapshot
+are not part of the installable runtime wheel.
+
+The released time series do not include power, tariff, or per-step reward. Reward, cost, and energy
+can therefore be checked against the audited terminal tables but cannot be independently
+reconstructed from the public time series.
+
 Formal evaluation recomputes the installed package fingerprint and requires an exact
 match with the training identity before loading a checkpoint. It also requires a
 terminal training manifest and an exclusive run lock.
+
+The evaluated checkpoints were created by historical source and configuration identities that
+differ from the current publication package. A scientifically compatible historical snapshot is
+included under `historical_training_source_287b452`: its source fingerprint and all 15
+seed-specific configuration hashes match the retained training manifests. It also contains the
+five legacy policies required by the historical offline preflight. The 15 evaluated best
+checkpoints are not included, so direct replay of those policies is not supported by this release.
+Checkpoint files supplied separately must be paired with the historical source fingerprint and
+their seed-specific configuration hashes.
 
 The aggregation command enforces this boundary: it validates each seed-specific hash
 against the packaged task and rejects mixed protocol hashes, source fingerprints, or

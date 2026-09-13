@@ -1,0 +1,28 @@
+{
+  "graph_schema": "confirmed_causal_graph",
+  "schema_version": 1,
+  "profile": "SZ_Air",
+  "confirmation": {"status": "confirmed", "reviewer": "project owner", "date": "2026-08-05"},
+  "sources": ["docs/graph_provenance.md#sz_air"],
+  "nodes": [
+    {"id": "zone_temp", "scope": "zone"},
+    {"id": "cooling_setpoint", "scope": "zone"},
+    {"id": "occupancy", "scope": "zone"},
+    {"id": "power_meters", "scope": "site"},
+    {"id": "outdoor_temp", "scope": "site"},
+    {"id": "solar_irr", "scope": "site"},
+    {"id": "electricity_price", "scope": "site"}
+  ],
+  "edges": [
+    {"source": "outdoor_temp", "relation": "Positive Corr", "target": "zone_temp", "tags": ["Immediate", "Strong Impact"], "timing": "immediate"},
+    {"source": "solar_irr", "relation": "Positive Corr", "target": "zone_temp", "tags": ["Immediate", "Strong Impact"], "timing": "immediate"},
+    {"source": "cooling_setpoint", "relation": "Negative Corr", "target": "power_meters", "tags": ["Immediate", "Strong Impact"], "timing": "immediate"},
+    {"source": "occupancy", "relation": "Positive Corr", "target": "zone_temp", "tags": ["Immediate", "Strong Impact"], "timing": "immediate"},
+    {"source": "cooling_setpoint", "relation": "Positive Corr", "target": "zone_temp", "tags": ["Immediate", "Strong Impact"], "timing": "immediate"},
+    {"source": "outdoor_temp", "relation": "Positive Corr", "target": "power_meters", "tags": ["Delayed", "Strong Impact"], "timing": "delayed"},
+    {"source": "solar_irr", "relation": "Positive Corr", "target": "power_meters", "tags": ["Delayed", "Weak Impact"], "timing": "delayed"},
+    {"source": "occupancy", "relation": "Positive Corr", "target": "power_meters", "tags": ["Delayed", "Strong Impact"], "timing": "delayed"}
+  ],
+  "zones": ["zone1"],
+  "adjacency": []
+}

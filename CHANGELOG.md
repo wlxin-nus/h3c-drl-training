@@ -2,7 +2,7 @@
 
 All notable changes to the publication training package are recorded here.
 
-## 1.1.0 - 2026-09-13
+## 1.1.0 - 2026-09-14
 
 - Added processed paper metrics, training histories, and de-identified held-out time series.
 - Added independent recomputation of comfort and setpoint-dynamics metrics.

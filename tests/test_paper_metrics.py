@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from scripts.recompute_paper_metrics import SeriesRow, calculate_metrics, load_timeseries
-from scripts.verify_reference_results import verify
+from scripts.verify_reference_results import _uses_canonical_line_endings, verify
 
 
 def test_hand_calculated_two_zone_metrics() -> None:
@@ -70,3 +70,13 @@ def test_released_reference_results_are_integrity_and_metric_closed() -> None:
     assert result["training_rows"] == 4225
     assert result["training_evaluation_rows"] == 169
     assert result["recomputed_metrics"] == 6
+
+
+def test_reference_result_line_endings_are_canonical(tmp_path: Path) -> None:
+    canonical = tmp_path / "canonical.csv"
+    canonical.write_bytes(b"column\nvalue\n")
+    assert _uses_canonical_line_endings(canonical)
+
+    noncanonical = tmp_path / "noncanonical.csv"
+    noncanonical.write_bytes(b"column\r\nvalue\r\n")
+    assert not _uses_canonical_line_endings(noncanonical)

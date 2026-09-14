@@ -102,6 +102,10 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _uses_canonical_line_endings(path: Path) -> bool:
+    return b"\r" not in path.read_bytes()
+
+
 def _read_csv(name: str) -> tuple[list[str], list[dict[str, str]]]:
     path = RESULT_ROOT / name
     with path.open("r", encoding="utf-8-sig", newline="") as stream:
@@ -237,6 +241,8 @@ def verify() -> dict[str, int | float]:
         if not path.is_file():
             failures.append(f"missing file: {item['path']}")
             continue
+        if not _uses_canonical_line_endings(path):
+            failures.append(f"non-canonical line endings: {item['path']}")
         if path.stat().st_size != int(item["bytes"]):
             failures.append(f"byte count differs: {item['path']}")
         if _sha256(path) != item["sha256"]:

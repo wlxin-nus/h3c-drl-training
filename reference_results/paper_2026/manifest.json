@@ -2,7 +2,7 @@
   "schema": "h3c_drl_processed_paper_results",
   "schema_version": 1,
   "paper_title": "Causality-Constrained Hierarchical LLM Agents for Online Rule Adaptation in Building HVAC Control",
-  "release_date": "2026-09-13",
+  "release_date": "2026-09-14",
   "task_groups": 5,
   "evaluated_models": 15,
   "registered_seeds": [
@@ -32,32 +32,32 @@
   "files": [
     {
       "path": "drl_run_metrics.csv",
-      "bytes": 3630,
-      "sha256": "d5fc08d0c731e5ce6390d5d89c6d86e113df77ff098f1dcabc57ee9fe665dcf7",
+      "bytes": 3614,
+      "sha256": "da562fcb0be81f8274177ee8d934b77597d42d2d6ddc1d224ae75c0d45ee2f08",
       "data_rows": 15
     },
     {
       "path": "drl_metric_summary.csv",
-      "bytes": 6293,
-      "sha256": "b109235e2401541bde8bf5493bc4440dc5fb0ab1ea7bdeb183f505677654b33e",
+      "bytes": 6247,
+      "sha256": "bf0a69469c52b6265fea93a053568b334e477fd45b0b73f493a578f2f644b674",
       "data_rows": 45
     },
     {
       "path": "drl_evaluation_timeseries.csv",
-      "bytes": 2769114,
-      "sha256": "1ee0428641bad98d506d58fc4dfb6e1f38b31c51573b6f53df469adf6799605d",
+      "bytes": 2741177,
+      "sha256": "bafeaed7f990b4f8f03149fa32607047e411eae74872a061b28aa38b5d232130",
       "data_rows": 27936
     },
     {
       "path": "training_epochs.csv",
-      "bytes": 315374,
-      "sha256": "fc8868b74af4ce3edf999ffa4ae6be063dca6157c1f36a14d1744a70c63edc23",
+      "bytes": 311148,
+      "sha256": "957c317621b2a583136603c4479b0be990bbde9179a7fc2c88a2b3ea017c03a7",
       "data_rows": 4225
     },
     {
       "path": "training_window_evaluations.csv",
-      "bytes": 11984,
-      "sha256": "ffb977390215c0dcfdb5db1251797f7a5368aeba711cbf3ad14492f06d4f3855",
+      "bytes": 11814,
+      "sha256": "220eb3753ce555f51aa7a9c50369f3b64954741896e3c1fff762cc92ff50cd8c",
       "data_rows": 169
     }
   ],
